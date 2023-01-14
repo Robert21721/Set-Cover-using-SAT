@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Rise extends Task {
     int N, M, P, K;
@@ -37,56 +38,47 @@ public class Rise extends Task {
     }
     @Override
     public void readProblemData() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        // BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        // Scanner scanner = new Scanner(System.in);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = reader.readLine();
+        ArrayList<Integer> info = new ArrayList<>();
 
-        this.N = scanner.nextInt();
-        this.M = scanner.nextInt();
-        this.P = scanner.nextInt();
-        String caca = scanner.nextLine();
+        StringTokenizer st = new StringTokenizer(firstLine, " ");
 
-//        System.out.println(reader.readLine());
-//        System.out.println(reader.readLine());
-//        System.out.println(reader.readLine());
-//        System.out.println(reader.readLine());
+        while (st.hasMoreTokens()) {
+            info.add(Integer.valueOf(st.nextToken()));
+        }
 
-        // System.out.println(this.N + " " + this.M + " " + this.P);
+        this.N = info.get(0);
+        this.M = info.get(1);
+        this.P = info.get(2);
 
         this.pachete = new ArrayList<>();
         this.cartiDetinute = new ArrayList<>();
         this.cartiDorite = new ArrayList<>();
 
         for (int i = 0; i < this.N; i++) {
-            this.cartiDetinute.add(scanner.nextLine());
+            this.cartiDetinute.add(reader.readLine());
         }
-        // System.out.println(this.cartiDetinute);
 
         for (int i = 0; i < this.M; i++) {
-            this.cartiDorite.add(scanner.nextLine());
+            this.cartiDorite.add(reader.readLine());
         }
-        // System.out.println(this.cartiDorite);
-
 
         for (int i = 0; i < this.P; i++) {
-            int size = scanner.nextInt();
-            caca = scanner.nextLine();
+            int size = Integer.valueOf(reader.readLine());
 
             ArrayList<String> pachet = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                pachet.add(scanner.nextLine());
+                pachet.add(reader.readLine());
             }
             this.pachete.add(pachet);
         }
-
-        // System.out.println(this.pachete);
     }
 
     @Override
     public void formulateOracleQuestion() throws IOException {
         FileWriter file = new FileWriter("sat.cnf");
-        // nr elemente multime - caetiDorite.size()
-        // nr submultimi - P
-        // k - schimbam in for
 
         int difNr = (this.P * (this.P - 1)) / 2 + this.P;
         file.write("p cnf " + (this.K * this.P) + " " + (this.K + difNr + this.cartiDorite.size()) + "\n");
@@ -126,20 +118,19 @@ public class Rise extends Task {
     @Override
     public void decipherOracleAnswer() throws IOException {
         FileReader file = new FileReader("sat.sol");
-        Scanner scanner = new Scanner(file);
-        String res = scanner.nextLine();
+        BufferedReader reader = new BufferedReader(file);
+        String res = reader.readLine();
 
-        // System.out.println(res);
         if (res.equals("True")) {
 
-            // System.out.println(res);
-            int size = scanner.nextInt();
+            int size = Integer.valueOf(reader.readLine());
+            String data = reader.readLine();
+            StringTokenizer st = new StringTokenizer(data, " ");
 
             int nrElem = 0;
             ArrayList<Integer> subSets = new ArrayList<>();
-
-            for (int i = 0; i < size; i++) {
-                int nr = scanner.nextInt();
+            while (st.hasMoreTokens()) {
+                int nr = Integer.valueOf(st.nextToken());
                 if (nr > 0) {
                     nrElem++;
                     if (nr % this.P == 0) {
@@ -154,7 +145,6 @@ public class Rise extends Task {
             for (int i = 0; i < subSets.size(); i++) {
                 System.out.print(subSets.get(i) + " ");
             }
-            // System.out.print("\n");
             this.ok = true;
         }
     }

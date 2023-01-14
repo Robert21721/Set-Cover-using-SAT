@@ -101,7 +101,6 @@ public class Trial extends Task {
 
         int size = Integer.valueOf(reader.readLine());
         String data = reader.readLine();
-
         StringTokenizer st = new StringTokenizer(data, " ");
 
         int nrElem = 0;
